@@ -1,0 +1,10 @@
+.pagination {
+    display: flex;
+    justify-content: center;
+}
+
+.number {
+    text-decoration: none;
+    list-style-type: none;
+    margin: 3px;
+}
