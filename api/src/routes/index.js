@@ -34,7 +34,8 @@ const getApiData = async ()=> {
         released: game.released,
         background_image: game.background_image,
         rating: game.rating,
-        genres: game.genres.map( genre => genre)
+        genres: game.genres.map( genre => genre),
+        createdInDb: false
       }
     });
     console.log('# apiData', gamesData.length);
@@ -47,9 +48,9 @@ const getApiData = async ()=> {
 const getDbData = async () => {
   try {
       const gamesData = Videogame.findAll(
-        { attributes: [ 'id', 'name', 'released', 'rating' ] },
-        { includes: Genre }
-        );
+        { attributes: [ 'id', 'name', 'released', 'background_image', 'rating', 'createdInDb' ],
+          include: { model: Genre, as: 'genres' }
+        });
       console.log('dbData', gamesData);
       return gamesData;
   } catch (error) {
@@ -121,10 +122,10 @@ router.get('/videogames', async (req, res)=> {
 
 router.post('/videogames', async (req, res) => {
   try {
-    const { name, released, description, rating, genres } = req.body;
+    const { name, released, description, rating, genres, background_image } = req.body;
     console.log(req.body);
     const videogame = await Videogame.create({
-      name, description, released, rating
+      name, description, released, rating, background_image
     });
     const addGenres = await genres.map( genre => videogame.createGenre(genre));
     await Promise.all(addGenres);
@@ -158,6 +159,7 @@ router.get('/genres', async (req, res) => {
     res.status(200).json(genres);
   } catch (error) {
     console.log(error);
+    res.status(500).send(error.msg)
   }
 }); 
 
