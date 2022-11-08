@@ -9,6 +9,8 @@ export const FILTER_BY_ORIGIN = 'FILTER_BY_ORIGIN';
 export const SORT_BY_NAME = 'SORT_BY_NAME';
 export const SORT_BY_RATING = 'SORT_BY_RATING';
 export const SEARCH_VIDEO_GAME = 'SEARCH_VIDEO_GAME';
+export const GET_PLAFORMS = 'GET_PLAFORMS';
+
 
 export const getViedoGames = () => (dispatch) => {
   return axios.get('http://localhost:3001/videogames')
@@ -24,6 +26,23 @@ export const getGenres = () => (dispatch) => {
   .then( response => response.json() )
   .then( json => dispatch({type: GET_GENRES, payload: json }) )
   .catch( error => console.log(error) )
+};
+
+export const getPlatforms = () => (dispatch) => {
+  return fetch('http://localhost:3001/platforms')
+  .then( response => response.json() )
+  .then( json => dispatch({ type: GET_PLAFORMS, payload: json}))
+  .catch( error => console.log(error))
+};
+
+export const createVideoGame = (dataVideoGame)=> () => {
+  axios.post('http://localhost:3001/videogames',dataVideoGame)
+  .then( json => {
+    console.log(json)
+    return json
+    // dispatch({ type: CREATE_VIDEOGAME, payload: dataVideoGame })
+  })
+  .catch( error => console.log(error))
 };
 
 export const filterByGenre = (genre) => {
@@ -46,3 +65,13 @@ export const sortByRating = (mode) => {
 export const searchVideoGame = (nameGame) => {
   return { type: SEARCH_VIDEO_GAME, payload: nameGame }
 };
+
+export const getVideoGameDetail = (idVideoGame) => (dispatch) => {
+  console.log('id',idVideoGame,'http://localhost:3001/videogame/' + idVideoGame)
+  axios.get('http://localhost:3001/videogame/' + idVideoGame)
+  .then( json =>{
+    console.log('json', json.data)
+    dispatch({ type: GET_VIDEOGAME_DETAIL, payload: json.data} )
+  })
+
+}

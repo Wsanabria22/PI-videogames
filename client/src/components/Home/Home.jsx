@@ -71,41 +71,47 @@ export default function Home() {
 
   return (
     <div className="Container">
-      <Link to={'/CreateVideoGame'}>Create VideoGame</Link>
-      <h1>Video Games List</h1>
-      <button onClick={e => handleGetGames(e)}>Load All Games</button>
-      <SearchBar/>
-      <div>
-        <label htmlFor="">Sort By Name</label>
+      <div className="header">
+        <Link to={'/createvideogame'}> 
+          <button className="btns">Crear VideoJuego</button> 
+        </Link>
+          <button className="btns" onClick={e => handleGetGames(e)}>Cargar Video Juegos</button>
+        <SearchBar/>
+      </div>
+
+      <div className="filtros">
+        <label htmlFor="">Ordenar por Nombre: </label>
         <select onClick={e => handleSortByName(e)}>
           <option value="none">None</option>
           <option value="asc">Ascendent</option>
           <option value="desc">Descendent</option>
         </select>
-        <label htmlFor="">Sort By Rating</label>
+        <label htmlFor="">Ordenar por Rating: </label>
         <select onClick={e => handleSortByRating(e)}>
           <option value="none">None</option>
           <option value="asc">Ascendent</option>
           <option value="desc">Descendent</option>
         </select>
-        <label htmlFor="">Filter by:</label>
+        <label htmlFor="">Filtro por Origen: </label>
         <select onClick={e => handleFilterOrigin(e)}>
           <option value="All origin">All origin</option>
           <option value="api">Api</option>
           <option value="created">Created</option>
         </select>
+        <label htmlFor="">Filtro por Genero: </label>
         <select onChange={e => handleFilterGenre(e)}>
           { allGenres?.map( (genre, index) => <option key={index}>{genre}</option> ) }
         </select>
-        <Pagination pageSize={pageSize} totalVideoGames={allVideoGames.length} pagination={pagination}/>
-        <p>{allVideoGames.length}</p>
+      </div>
+      
+      <Pagination pageSize={pageSize} totalVideoGames={allVideoGames.length} pagination={pagination}/>
+      
+      <div className='gameCards'>
         { 
           currentGames?.map( (game, index) => 
-            <div key={index} className='gameCard'>
-              <Link to={'/videogamedetail'+game.id}>
-                <VideoGame image={game.background_image} name={game.name} rating={game.rating} genres={game.genres}/> 
+              <Link to={'/videogamedetail/'+game.id}>
+                <VideoGame key={index} image={game.background_image} name={game.name} rating={game.rating} genres={game.genres}/> 
               </Link>
-            </div>
           )
         }
       </div>

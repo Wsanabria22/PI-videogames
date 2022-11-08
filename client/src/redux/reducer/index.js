@@ -1,5 +1,5 @@
-import { GET_VIDEOGAMES, GET_GENRES, FILTER_BY_GENRE, 
-        FILTER_BY_ORIGIN, SORT_BY_NAME, SORT_BY_RATING, SEARCH_VIDEO_GAME } from '../actions/index';
+import { GET_VIDEOGAMES, GET_GENRES, FILTER_BY_GENRE, CREATE_VIDEOGAME, GET_PLAFORMS,
+        FILTER_BY_ORIGIN, SORT_BY_NAME, SORT_BY_RATING, SEARCH_VIDEO_GAME, GET_VIDEOGAME_DETAIL } from '../actions/index';
 
 const initialState = {
     videoGames: [],
@@ -17,11 +17,21 @@ const rootReducer = (state = initialState, action ) => {
         videoGames: action.payload,
         allVideoGames: action.payload
       }
+    case CREATE_VIDEOGAME:
+      return {
+        ...state,
+      }
     case GET_GENRES:
       const genres = action.payload.map( genre => genre.name )
       return {
         ...state,
         genres: genres,
+      }
+    case GET_PLAFORMS: 
+      const platforms = action.payload.map( platform => platform.name )
+      return {
+        ...state,
+        platforms: platforms,
       }
     case FILTER_BY_GENRE:
       const allGames = state.allVideoGames;
@@ -78,6 +88,11 @@ const rootReducer = (state = initialState, action ) => {
       return {
         ...state,
         videoGames: videoGameList
+      }
+    case GET_VIDEOGAME_DETAIL:
+      return {
+        ...state,
+        videoGameDetail: action.payload
       }
     default:
       return state;

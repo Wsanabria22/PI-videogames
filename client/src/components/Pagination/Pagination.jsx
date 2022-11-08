@@ -10,16 +10,17 @@ export default function Pagination({pageSize, totalVideoGames, pagination}) {
   }
 
   return (
-    <nav>
+    <div className="pagination">
+      <a htmlFor="">Paginas:</a>
       <ul className="pagination">
         { pageNumbers && pageNumbers.map( page => {
           return (
             <li className="number" key={page}>
-              <button onClick={()=> pagination(page)}>{page}</button>
+              <button className="btns1" onClick={()=> pagination(page)}>{page}</button>
             </li>)
           })
         }
       </ul>
-    </nav>
+    </div>
   )
 }
