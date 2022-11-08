@@ -18,6 +18,7 @@ const router = Router();
 //     .then(r => console.log(r.json()))
 // }
 
+//  Funcion que Obtiene la lista de video juegos de la API
 const getApiData = async ()=> {
   try {
     let apiDataTotal = [];
@@ -45,6 +46,7 @@ const getApiData = async ()=> {
   }
 };
 
+// Funcion que Obtiene la lista de video juetos de la Base de Datos
 const getDbData = async () => {
   try {
       const gamesData = Videogame.findAll(
@@ -58,11 +60,14 @@ const getDbData = async () => {
   } 
 };
 
+// Funcion que Obtiene el detalle de un video juego ya sea de la API o de la Base de Datos 
 const getDataGame = async (id) => {
   try {
     const regexId = /([a-zA-Z]+([0-9]+[a-zA-Z]+)+)/
     if (regexId.test(id)) {
-      const dataGame = await Videogame.findByPk(id, { includes: Genre, Platform });
+      const dataGame = await Videogame.findByPk(id, 
+        { include: [ { model: Genre, as: 'genres' } , { model: Platform, as: 'platforms' } ]}
+      );
       console.log('por DB', dataGame);
       return dataGame;
     } else {
@@ -75,6 +80,7 @@ const getDataGame = async (id) => {
           description:dataGame.description,
           released: dataGame.released,
           rating: dataGame.rating,
+          createdInDb: dataGame.createdInDb,
           platforms: dataGame.platforms.map( platform => platform )
         }
     } 
@@ -83,11 +89,12 @@ const getDataGame = async (id) => {
   }
 };
 
-
+// Ruta que devuelve la informacion detallada de un  video juegos 
 router.get('/videogame/:idVideogame', async (req, res)=> {
   try {
     const { idVideogame } = req.params;
     const gameData = await getDataGame(idVideogame);
+    console.log('gameData',gameData)
     if (gameData) res.status(200).json(gameData);
     else res.status(404).send(`No existen datos de un juego con el id ${idVideogame}`)
   } catch (error) {
@@ -96,6 +103,7 @@ router.get('/videogame/:idVideogame', async (req, res)=> {
   }
 });
 
+// Ruta que devuelve la lista de juegos consolidada de la API y la Base de datos
 router.get('/videogames', async (req, res)=> {
   try {
     const { name } = req.query;
@@ -119,16 +127,18 @@ router.get('/videogames', async (req, res)=> {
   }  
 });
 
-
+// Ruta que crea un video juego en la base de datos
 router.post('/videogames', async (req, res) => {
   try {
-    const { name, released, description, rating, genres, background_image } = req.body;
-    console.log(req.body);
+    const { name, released, description, rating, genres, background_image, platforms } = req.body;
+    console.log('req.body', req.body);
     const videogame = await Videogame.create({
       name, description, released, rating, background_image
     });
     const addGenres = await genres.map( genre => videogame.createGenre(genre));
     await Promise.all(addGenres);
+    const addPlatform = await platforms.map( plaform =>  videogame.createPlatform(plaform));
+    await Promise.all(addPlatform);
     res.status(200).send(`Videogame ${videogame.name} creado satisfactoriamente`)
   } catch (error) {
     console.log(error);
@@ -136,6 +146,7 @@ router.post('/videogames', async (req, res) => {
   }
 });
 
+// Funcion que devuelve una lista de todos los generos de la lista de video juegos de la API
 const getGenres = async () => {
   try {
     let apiDataTotal = [];
@@ -150,10 +161,11 @@ const getGenres = async () => {
   }
 };
 
+// Ruta que crea en la base de datos todos los generos de los video juegos de la API
 router.get('/genres', async (req, res) => {
   try {
     const genresList = await getGenres();
-    console.log(genresList);
+    // console.log(genresList);
     genresList.forEach( async genre => { await Genre.findOrCreate({ where: { name : genre.name } })})
     const genres = await Genre.findAll();
     res.status(200).json(genres);
@@ -163,5 +175,34 @@ router.get('/genres', async (req, res) => {
   }
 }); 
 
+// Funcion que devuelve una lista de todos las plataformas de la lista de video juegos de la API
+const getPlatforms = async () => {
+  try {
+    let apiDataTotal = [];
+    for (let i = 1; i <= 5 ; i++) {
+      let apiData = (await axios.get(`https://api.rawg.io/api/games?key=${API_KEY}&page=${i}`)).data.results; 
+      apiDataTotal = apiDataTotal.concat(apiData);
+    }
+    const platformsData = apiDataTotal.map( game => {
+        return game.platforms.map( platform => platform.platform.name ) 
+    })
+    return(platformsData.flat())
+  } catch (error) {
+    console.log(error)
+  }
+};
+
+router.get('/platforms', async (req, res) => {
+  try {
+    const platformsList = await getPlatforms();
+    platformsList.forEach( async platform => { await Platform.findOrCreate({ where: { name: platform } })})
+    const platforms = await Platform.findAll();
+    res.status(200).json(platforms)
+  } catch (error) {
+    console.log(error)
+    res.status(500).send(error.msg)
+  }
+
+})
 
 module.exports = router;
