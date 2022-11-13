@@ -12,7 +12,14 @@ module.exports = (sequelize) => {
     },
     name: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validator: {
+        noNull(value) {
+          if ( value === null) {
+            throw new Error('It requires a valid name')
+          }
+        }
+      }
     },
     description: {
       type: DataTypes.STRING,
