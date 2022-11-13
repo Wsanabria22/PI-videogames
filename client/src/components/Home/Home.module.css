@@ -16,10 +16,10 @@
 }
 
 .btns {
-  padding: 7px;
+  padding: 0px 17px 0px 17px;
   font-family:'Play', sans-serif; 
   font-size: 15px;
-  height:2.5rem;
+  height:2.2rem;
   color: var(--text);
   background-color: deepskyblue;
   border-radius: 4px;
@@ -28,6 +28,7 @@
 }
 .btns:hover{
   border: 1px solid var(--text);
+  cursor: pointer;
 }
 
 .filtros {
@@ -39,5 +40,12 @@
 }
 
 .filtros select {
- margin-right: 2rem;
+ margin-right: 3rem;
+}
+
+.filtros label {
+  /* font-weight: bold; */
+  font-size: 1rem;
+  margin-left: 0.5rem;
+  width:4rem;
 }

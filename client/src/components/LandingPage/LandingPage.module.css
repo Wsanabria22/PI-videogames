@@ -1,0 +1,27 @@
+.container {
+ display: flex; 
+ flex-direction: column;  
+ justify-content: center;
+ align-items: center;
+ height: 40rem;
+ font-size: 2rem;
+ background-image: url(../../images/VideoGames2.jpg) ;
+ background-repeat: no-repeat;
+ background-size: cover;  
+}
+
+.btns3 {
+  padding: 0px 17px 0px 17px;
+  font-size: 1rem;
+  height:2.2rem;
+  color: var(--text);
+  background-color: deepskyblue;
+  border-radius: 0.3rem;
+  border: none;
+  font-weight: bold;
+  margin-left: 0.5rem;
+}
+.btns3:hover{
+  border: 1px solid var(--text);
+  cursor: pointer;
+}

@@ -8,7 +8,7 @@ import VideoGame  from '../VideoGames/VideoGames';
 import Pagination from "../Pagination/Pagination";
 import SearchBar from "../Search/Search";
 import { Link } from 'react-router-dom';
-import './Home.css';
+import s from './Home.module.css';
 
 
 export default function Home() {
@@ -70,16 +70,16 @@ export default function Home() {
 
 
   return (
-    <div className="Container">
-      <div className="header">
+    <div>
+      <div className={s.header}>
         <Link to={'/createvideogame'}> 
-          <button className="btns">Crear VideoJuego</button> 
+          <button className={s.btns}>Crear Video Juego</button> 
         </Link>
-          <button className="btns" onClick={e => handleGetGames(e)}>Cargar Video Juegos</button>
+          <button className={s.btns} onClick={e => handleGetGames(e)}>Cargar Video Juegos</button>
         <SearchBar/>
       </div>
 
-      <div className="filtros">
+      <div className={s.filtros}>
         <label htmlFor="">Ordenar por Nombre: </label>
         <select onClick={e => handleSortByName(e)}>
           <option value="none">None</option>
@@ -106,7 +106,7 @@ export default function Home() {
       
       <Pagination pageSize={pageSize} totalVideoGames={allVideoGames.length} pagination={pagination}/>
       
-      <div className='gameCards'>
+      <div className={s.gameCards}>
         { 
           currentGames?.map( (game, index) => 
               <Link to={'/videogamedetail/'+game.id}>

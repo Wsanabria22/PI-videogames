@@ -1,17 +1,17 @@
-import "./LandingPage.css";
 import React from "react";
 import { Link } from 'react-router-dom';
-import mainImage from '../../images/VideoGames.jpg';
+import mainImage from '../../images/VideoGames2.jpg';
+import s from "./LandingPage.module.css";
 
 
 export default function LandingPage() {
   return (
-    <div className="container">
-      <img src={mainImage} alt="Video Games" />
-      <h1>Video Games Information Center</h1>
+    <div className={s.container}>
+      <h1>Information de Video Juegos</h1>
       <Link to={'/home'}>
-        <button>INGRESAR</button>
+        <button className={s.btns3}>INGRESAR</button>
       </Link>
+      <img className={s.img} alt="Video Games" />
     </div>
   )
 };

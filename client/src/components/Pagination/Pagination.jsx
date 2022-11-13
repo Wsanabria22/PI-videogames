@@ -1,5 +1,5 @@
 import React from "react";
-import './Pagination.css';
+import s from './Pagination.module.css';
 
 
 export default function Pagination({pageSize, totalVideoGames, pagination}) {
@@ -10,13 +10,13 @@ export default function Pagination({pageSize, totalVideoGames, pagination}) {
   }
 
   return (
-    <div className="pagination">
+    <div className={s.pagination}>
       <a htmlFor="">Paginas:</a>
-      <ul className="pagination">
+      <ul className={s.pagination}>
         { pageNumbers && pageNumbers.map( page => {
           return (
-            <li className="number" key={page}>
-              <button className="btns1" onClick={()=> pagination(page)}>{page}</button>
+            <li className={s.number} key={page}>
+              <button className={s.btns1} onClick={()=> pagination(page)}>{page}</button>
             </li>)
           })
         }

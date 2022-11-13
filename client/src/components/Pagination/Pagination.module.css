@@ -1,0 +1,26 @@
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.number {
+    text-decoration: none;
+    list-style-type: none;
+    margin: 3px;
+    padding: 1px;
+}
+
+.btns1 {
+    padding: 0.3rem 0.3rem 0.3rem 0.3rem;
+    font-size: 15px;
+    color: var(--text);
+    background-color: deepskyblue;
+    border-radius: 4px;
+    border: none;
+    font-weight: bold;
+  }
+  .btns1:hover{
+    border: 1px solid var(--text);
+    cursor: pointer;
+  }

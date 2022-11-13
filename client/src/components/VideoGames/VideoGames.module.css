@@ -27,25 +27,6 @@
   margin-top: 0.5rem;
 }
 
-.btn {
-  position: absolute;
-  top: 0.25rem;
-  right: 0.25rem;
-  border: 1px solid transparent;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color:grey;
-  border-radius: 0.5rem;
-  color: var(--text);
-  font-family:'Play', sans-serif; 
-  cursor: pointer;
-}
-.btn:hover{
-  background-color: var(--text);
-  color: grey;
-}
-
 .image {
   display: flex;
   justify-content: center;

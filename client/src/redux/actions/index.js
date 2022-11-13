@@ -1,4 +1,4 @@
-import axios from 'axios';
+// import axios from 'axios'
 
 export const GET_VIDEOGAMES = 'GET_VIDEOGAMES';
 export const GET_VIDEOGAME_DETAIL = 'GET_VIDEOGAME_DETAIL';
@@ -12,11 +12,21 @@ export const SEARCH_VIDEO_GAME = 'SEARCH_VIDEO_GAME';
 export const GET_PLAFORMS = 'GET_PLAFORMS';
 
 
+// export const getViedoGames = () => (dispatch) => {
+//   return axios.get('http://localhost:3001/videogames')
+//   .then( json => {
+//     // console.log(json)
+//     (dispatch({type: GET_VIDEOGAMES, payload: json.data}))
+//   })
+//   .catch( error => console.log(error))
+// };
+
 export const getViedoGames = () => (dispatch) => {
-  return axios.get('http://localhost:3001/videogames')
+  return fetch('http://localhost:3001/videogames')
+  .then( response => response.json() )
   .then( json => {
     // console.log(json)
-    (dispatch({type: GET_VIDEOGAMES, payload: json.data}))
+    (dispatch({type: GET_VIDEOGAMES, payload: json}))
   })
   .catch( error => console.log(error))
 };
@@ -35,8 +45,24 @@ export const getPlatforms = () => (dispatch) => {
   .catch( error => console.log(error))
 };
 
+// export const createVideoGame = (dataVideoGame)=> () => {
+//   axios.post('http://localhost:3001/videogames',dataVideoGame)
+//   .then( json => {
+//     console.log(json)
+//     return json
+//     // dispatch({ type: CREATE_VIDEOGAME, payload: dataVideoGame })
+//   })
+//   .catch( error => console.log(error))
+// };
+
 export const createVideoGame = (dataVideoGame)=> () => {
-  axios.post('http://localhost:3001/videogames',dataVideoGame)
+  console.log('dataVideoGame',dataVideoGame)
+  console.log(JSON.stringify(dataVideoGame))
+  fetch('http://localhost:3001/videogames',
+  { method: 'POST', 
+    headers: {'Content-Type': 'application/json'}, 
+    body: JSON.stringify(dataVideoGame)})
+  .then( response => response.json() )
   .then( json => {
     console.log(json)
     return json
@@ -66,12 +92,22 @@ export const searchVideoGame = (nameGame) => {
   return { type: SEARCH_VIDEO_GAME, payload: nameGame }
 };
 
+// export const getVideoGameDetail = (idVideoGame) => (dispatch) => {
+//   console.log('id',idVideoGame,'http://localhost:3001/videogame/' + idVideoGame)
+//   axios.get('http://localhost:3001/videogame/' + idVideoGame)
+//   .then( json =>{
+//     console.log('json', json.data)
+//     dispatch({ type: GET_VIDEOGAME_DETAIL, payload: json.data} )
+//   })
+// }
+
 export const getVideoGameDetail = (idVideoGame) => (dispatch) => {
   console.log('id',idVideoGame,'http://localhost:3001/videogame/' + idVideoGame)
-  axios.get('http://localhost:3001/videogame/' + idVideoGame)
+  fetch('http://localhost:3001/videogame/' + idVideoGame)
+  .then( response => response.json() )
   .then( json =>{
-    console.log('json', json.data)
-    dispatch({ type: GET_VIDEOGAME_DETAIL, payload: json.data} )
+    console.log('json', json)
+    dispatch({ type: GET_VIDEOGAME_DETAIL, payload: json} )
   })
 
 }

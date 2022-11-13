@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from 'react-router-dom';
 import { createVideoGame, getGenres, getPlatforms } from "../../redux/actions";
 import validateData from './ValidateDataVideogame'
-import './CreateVideoGame.css';
+import s from './CreateVideoGame.module.css';
 
 export function CreateVideoGame() {
 
@@ -22,15 +22,16 @@ export function CreateVideoGame() {
     platforms: []
   };
 
+  let [errors, setErrors] = useState({});
+  let [data, setData] = useState(initialState);
+
   useEffect(()=> { 
     dispatch(getGenres());
     dispatch(getPlatforms()); 
   }, []);
 
-  let [data, setData] = useState(initialState);
-  let [errors, setErrors] = useState({});
- 
 
+ 
   const handleDataChange = (e) => {
     setData(prevState => ({
       ...prevState,
@@ -94,55 +95,62 @@ export function CreateVideoGame() {
   };
 
   return (
-    <div>
-      <Link to='/Home'><button>Ir Atras</button></Link>
-      <h1>Creacion del Video Juego</h1>
-      <form onSubmit={e=>handleSubmit(e)}>
+    <div className={s.container}>
+      <h1 className={s.title}>Creacion del Video Juego</h1>
+      <form className={s.gameCard} onSubmit={e=>handleSubmit(e)}>
         <div>
           <label htmlFor="name">Nombre:</label>
-          <input type="text" value={data.name} name='name' onChange={e=>handleDataChange(e)}/>
+          <input className={s.names} type="text" value={data.name} name='name' onChange={e=>handleDataChange(e)}/>
         </div>
-        {errors.name && (<p className="danger">{errors.name}</p>)}
+        {errors.name && (<p className={s.danger}>{errors.name}</p>)}
         <div>
-          <label htmlFor="released">Fecha de lanzamiento</label>
-          <input type="date" value={data.released} name='released' onChange={e=>handleDataChange(e)}/>
+          <label htmlFor="released">Fecha de lanzamiento:</label>
+          <input className={s.released} type="date" value={data.released} name='released' onChange={e=>handleDataChange(e)}/>
         </div>
-        <div>
-          <label htmlFor="description">Descripcion:</label>
-          <input type="text" value={data.description} name='description' onChange={e=>handleDataChange(e)}/>
+        <div className={s.descText}>
+          <label className={s.descLabel} htmlFor="description">Descripcion:</label>
+          <textarea className={s.description} type="text" rows="10" cols="40" value={data.description} name='description' onChange={e=>handleDataChange(e)}></textarea>
         </div>
-        {errors.description && (<p className="danger">{errors.description}</p>)}
+        {errors.description && (<p className={s.danger}>{errors.description}</p>)}
         <div>
           <label htmlFor="rating">Rating:</label>
-          <input type="number" value={data.rating} name='rating' onChange={e=>handleDataChange(e)}/>
+          <input className={s.num} type="number" value={data.rating} name='rating' onChange={e=>handleDataChange(e)}/>
         </div>
-        {errors.rating && (<p className="danger">{errors.rating}</p>)}
+        {errors.rating && (<p className={s.danger}>{errors.rating}</p>)}
         <div>
           <label htmlFor="background_image">Imagen Principal:</label>
-          <input type="text" value={data.background_image} name='background_image' onChange={e=>handleDataChange(e)}/>
+          <input className={s.urlimage} type="text" value={data.background_image} name='background_image' onChange={e=>handleDataChange(e)}/>
         </div>
-        <div>
-          <label htmlFor="">Genres:</label>
-          <select onChange={e => handleDataGenre(e)}>
-            { genres?.map( (genre, index) => <option key={index}>{genre}</option> ) }
-          </select>
-          <ul>
-            {
-              data.genres.map((genre,index)=> (
-                <li key={index}>
-                  {genre.name} 
-                  <button onClick={(e)=>removeGenre(genre.name,e)}>X</button>
-                </li>
-                ))
-            }
-          </ul>
+        <div className={s.tabla}>
+        <div className={s.tabla}>
+          <div>
+            <label htmlFor="">Generos:</label>
+            <select onChange={e => handleDataGenre(e)}>
+              { genres?.map( (genre, index) => <option key={index}>{genre}</option> ) }
+            </select>
+          </div>
+          <div>
+            <ul>
+              {
+                data.genres.map((genre,index)=> (
+                  <li key={index}>
+                    {genre.name} 
+                    <button onClick={(e)=>removeGenre(genre.name,e)}>X</button>
+                  </li>
+                  ))
+              }
+            </ul>
+          </div>
         </div>
 
-        <div>
-          <label htmlFor="">Platforms:</label>
-          <select onChange={e => handleDataPlatform(e)}>
+        <div className={s.tabla}>
+          <div>
+          <label htmlFor="">Plataformas:</label>
+          <select name="platforms" onChange={e => handleDataPlatform(e)}>
             { platforms?.map( (platform, index) => <option key={index}>{platform}</option> ) }
           </select>
+          </div>
+          <div>
           <ul>
             {
               data.platforms.map((platform,index)=> (
@@ -153,13 +161,16 @@ export function CreateVideoGame() {
                 ))
             }
           </ul>
-          {errors.platforms && (<p className="danger">{errors.platforms}</p>)}
+          </div>
         </div>
-
-        <button type="submit" disabled={errors.name || errors.description ||
-            errors.rating || errors.platforms ? true: false} >Crear Video Juego</button>
+        {errors.platforms && (<p className={s.danger}>{errors.platforms}</p>)}
+        </div>
+        <button className={s.btns1} type="submit" disabled={errors.name || errors.description ||
+          errors.rating || errors.platforms ? true: false} >Crear Video Juego</button>
       </form>
-
+      <div >
+        <Link to='/Home'><button className={s.btns1}>Ir Atras</button></Link>
+      </div>
     </div>
 
   )
