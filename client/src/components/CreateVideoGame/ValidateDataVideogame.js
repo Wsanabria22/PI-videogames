@@ -1,5 +1,5 @@
 const validateData = (data) => {
-  console.log('data', data)
+  // console.log('data', data)
   let errors = {};
   if (!data.name)  {
     errors.name = 'Nombre del Video Juego es requerido'
@@ -16,8 +16,8 @@ const validateData = (data) => {
   if (data.platforms.length === 0) {
     errors.platforms = 'Debe asignar al menos una plataforma para el video juego'
   }
-  console.log(errors)
+  // console.log(errors)
   return errors
 }
 
-module.exports = validateData;
+export default validateData;

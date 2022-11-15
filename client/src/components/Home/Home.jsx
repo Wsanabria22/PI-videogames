@@ -8,24 +8,34 @@ import VideoGame  from '../VideoGames/VideoGames';
 import Pagination from "../Pagination/Pagination";
 import SearchBar from "../Search/Search";
 import { Link } from 'react-router-dom';
+import orderVideoGames from './HomeUtils';
 import s from './Home.module.css';
 
 
 export default function Home() {
 
   const dispatch = useDispatch();
-  const allVideoGames = useSelector((state) => state.videoGames);
-  const genres = useSelector((state) => state.genres);
+  let videoGames = useSelector((state) => state.videoGames);
+  let genres = useSelector((state) => state.genres);
+  // let allvideoGames = useSelector((state) => state.AllVideoGames); 
+
+  let originFilter = useSelector((state) => state.originFilter);
+  let genreFilter = useSelector((state) => state.genreFilter);
+  let sortName = useSelector((state) => state.sortByName);
+  let sortRating = useSelector((state) => state.sortByRating);
+
+  // console.log('videogames', videoGames)
+  let gamesOrdered = orderVideoGames(originFilter, genreFilter, sortName, sortRating, videoGames);
+  // console.log('gamesOrdered', gamesOrdered)
 
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(15);
-  const [order, setOrder] = useState('');
   let indexlastGame = page * pageSize;
   let indexFirstGame = indexlastGame- pageSize;
-  let currentGames = allVideoGames.slice(indexFirstGame, indexlastGame);
+  let currentGames = gamesOrdered.slice(indexFirstGame, indexlastGame);
 
-  const pagination = (pageNumber)=>{setPage(pageNumber)};
-  let allGenres = genres ? ['All genres'].concat(genres) : null;
+ 
+  let allGenres = genres ? ['Todos'].concat(genres) : null;
 
   useEffect(
     ()=> { 
@@ -34,9 +44,9 @@ export default function Home() {
     }
     ,[dispatch]
   );
-  
-  console.log('home', currentGames);
 
+  const pagination = (pageNumber)=>{setPage(pageNumber)};
+  
   const handleGetGames = (e) => {
     e.preventDefault();
     dispatch(getViedoGames());
@@ -58,14 +68,12 @@ export default function Home() {
     e.preventDefault();
     dispatch(sortByName(e.target.value));
     pagination(1);
-    setOrder(`By Name ${e.target.value}`);
   };
 
   const handleSortByRating = (e) => {
     e.preventDefault();
     dispatch(sortByRating(e.target.value));
     pagination(1);
-    setOrder(`By Rating ${e.target.value}`);
   };
 
 
@@ -80,31 +88,34 @@ export default function Home() {
       </div>
 
       <div className={s.filtros}>
-        <label htmlFor="">Ordenar por Nombre: </label>
-        <select onClick={e => handleSortByName(e)}>
-          <option value="none">None</option>
-          <option value="asc">Ascendent</option>
-          <option value="desc">Descendent</option>
+        <label htmlFor="">Orden por Nombre: </label>
+        <select value={sortName} onChange={e => handleSortByName(e)}>
+          <option value="none">Ninguno</option>
+          <option value="asc">Ascendente</option>
+          <option value="desc">Descendente</option>
         </select>
-        <label htmlFor="">Ordenar por Rating: </label>
-        <select onClick={e => handleSortByRating(e)}>
-          <option value="none">None</option>
-          <option value="asc">Ascendent</option>
-          <option value="desc">Descendent</option>
+        <label htmlFor="">Orden por Rating: </label>
+        <select value={sortRating} onChange={e => handleSortByRating(e)}>
+          <option value="none">Ninguno</option>
+          <option value="asc">Ascendente</option>
+          <option value="desc">Descendente</option>
         </select>
-        <label htmlFor="">Filtro por Origen: </label>
-        <select onClick={e => handleFilterOrigin(e)}>
-          <option value="All origin">All origin</option>
+        <label htmlFor="">Origen: </label>
+        <select value={originFilter} onChange={e => handleFilterOrigin(e)}>
+          <option value="All">Todos</option>
           <option value="api">Api</option>
-          <option value="created">Created</option>
+          <option value="created">Creado</option>
         </select>
-        <label htmlFor="">Filtro por Genero: </label>
-        <select onChange={e => handleFilterGenre(e)}>
-          { allGenres?.map( (genre, index) => <option key={index}>{genre}</option> ) }
+        <label htmlFor="">Genero: </label>
+        <select value={genreFilter} onChange={e => handleFilterGenre(e)}>
+          { allGenres?.map( (genre, index) => <option 
+            key={index}
+            value={genre}>{genre}</option> ) }
         </select>
       </div>
       
-      <Pagination pageSize={pageSize} totalVideoGames={allVideoGames.length} pagination={pagination}/>
+      <Pagination pageSize={pageSize} totalVideoGames={gamesOrdered.length} 
+        page={page} pagination={pagination}/>
       
       <div className={s.gameCards}>
         { 

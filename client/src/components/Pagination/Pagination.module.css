@@ -24,3 +24,14 @@
     border: 1px solid var(--text);
     cursor: pointer;
   }
+
+  .page {
+    margin-left: 0.5rem;
+    width: 1.5rem;
+    text-align: center;
+    padding-left: 0;
+  }
+
+  .p_page {
+    margin-left: 4rem;
+  }

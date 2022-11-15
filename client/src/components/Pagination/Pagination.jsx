@@ -2,7 +2,7 @@ import React from "react";
 import s from './Pagination.module.css';
 
 
-export default function Pagination({pageSize, totalVideoGames, pagination}) {
+export default function Pagination({pageSize, totalVideoGames, page, pagination}) {
   const pageNumbers= [];
 
   for (let i = 1; i <= Math.ceil(totalVideoGames/pageSize); i++) {
@@ -11,7 +11,7 @@ export default function Pagination({pageSize, totalVideoGames, pagination}) {
 
   return (
     <div className={s.pagination}>
-      <a htmlFor="">Paginas:</a>
+      <p>Paginas:</p>
       <ul className={s.pagination}>
         { pageNumbers && pageNumbers.map( page => {
           return (
@@ -21,6 +21,8 @@ export default function Pagination({pageSize, totalVideoGames, pagination}) {
           })
         }
       </ul>
+      <p className={s.p_page} >Pagina Actual:</p>
+      <input className={s.page} type="number" value={page} readOnly/>
     </div>
   )
 }

@@ -1,12 +1,19 @@
 import { GET_VIDEOGAMES, GET_GENRES, FILTER_BY_GENRE, CREATE_VIDEOGAME, GET_PLAFORMS,
-        FILTER_BY_ORIGIN, SORT_BY_NAME, SORT_BY_RATING, SEARCH_VIDEO_GAME, GET_VIDEOGAME_DETAIL } from '../actions/index';
+        FILTER_BY_ORIGIN, SORT_BY_NAME, SORT_BY_RATING, SEARCH_VIDEO_GAME, 
+        GET_VIDEOGAME_DETAIL, SEND_CREATESTATUS, SET_POPUPSTATUS} from '../actions/index';
 
 const initialState = {
     videoGames: [],
     allVideoGames: [],
     videoGameDetail: {},
     genres: [],
-    platforms: []
+    platforms: [],
+    originFilter: 'All',
+    genreFilter: 'Todos',
+    sortByName: 'none',
+    sortByRating: 'none',
+    statusCode: 0,
+    statusText: '',
 };
 
 const rootReducer = (state = initialState, action ) => {
@@ -34,51 +41,34 @@ const rootReducer = (state = initialState, action ) => {
         platforms: platforms,
       }
     case FILTER_BY_GENRE:
-      const allGames = state.allVideoGames;
-      const gamesFilter = action.payload === 'All genres' ? allGames :
-        allGames.filter( 
-          game => { 
-            const gameGenres = game.genres.map( genre => genre.name );
-            return gameGenres.includes(action.payload)
-          }
-        )
-      console.log('gameFilter', gamesFilter)
+      console.log('By genre')
       return {
         ...state,
-        videoGames: gamesFilter,
+        // videoGames: gamesFilter,
+        genreFilter: action.payload
       }
     case FILTER_BY_ORIGIN:
-      console.log('reducer', action.payload)
-      const originFilter = action.payload === 'created' ? 
-        state.allVideoGames.filter( game => game.createdInDb) :
-        state.allVideoGames.filter( game => !game.createdInDb);
+      console.log('By origin')
       return {
         ...state,
-        videoGames: action.payload === 'All origin' ? state.allVideoGames : originFilter
+        // videoGames: action.payload === 'All' ? state.allVideoGames : originFilter,
+        originFilter: action.payload
       }
     case SORT_BY_NAME:
-      let sortByName = action.payload === 'asc' ?
-      state.videoGames.sort(function compare(a, b) {
-        if (a.name < b.name) return -1
-        if (a.name > b.name) return 1
-        return 0
-      }) : 
-      state.videoGames.sort(function compare(a, b) {
-        if (a.name > b.name) return -1
-        if (a.name < b.name) return 1
-        return 0
-      });
+      console.log('By name')
       return {
         ...state,
-        videoGames: action.payload === 'none' ? state.allVideoGames : sortByName
+        videoGames: state.allVideoGames,
+        sortByName: action.payload,
+        sortByRating: 'none',
       }
     case SORT_BY_RATING:
-      let sortByRating = action.payload === 'asc' ?
-      state.videoGames.sort(function compare(a, b) {return a.rating - b.rating}) :
-      state.videoGames.sort(function compare(a, b) {return b.rating - a.rating});
+      console.log('By rating')
       return {
         ...state,
-        videoGames: action.payload === 'none' ? state.allVideoGames : sortByRating
+        videoGames: state.allVideoGames,
+        sortByRating: action.payload,
+        sortByName: 'none',
       }
     case SEARCH_VIDEO_GAME:
       let videoGameList = state.allVideoGames.filter(game => {
@@ -93,6 +83,18 @@ const rootReducer = (state = initialState, action ) => {
       return {
         ...state,
         videoGameDetail: action.payload
+      }
+    case SEND_CREATESTATUS:
+      return {
+        ...state,
+        statusCode: action.payload.status,
+        statusText: action.payload.text
+      }
+    case SET_POPUPSTATUS:
+      return {
+        ...state,
+        statusCode: action.payload.status,
+        statusText: action.payload.statusText
       }
     default:
       return state;

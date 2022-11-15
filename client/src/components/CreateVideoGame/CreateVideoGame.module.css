@@ -43,8 +43,8 @@ p.danger {
   flex-direction: column;
   justify-content: space-around;
   align-items: flex-start;
-  height: 30rem;
-  width: 65rem;
+  height: 95%;
+  width: 95%;
   border: 1px solid var(--border);
   backdrop-filter: blur(5px);
   margin-bottom: 0.5rem;
@@ -73,10 +73,10 @@ p.danger {
 }
 
 .description {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: var(--text);
   margin-left: 1rem;
-  width: 57rem;
+  width: 90%;
   height: 5rem;
   border-radius: 0.2rem;
 }
@@ -84,9 +84,11 @@ p.danger {
 .descLabel {
   display: block;
 }
+
 .descText {
   display: flex;
   justify-content:space-between;
+  box-sizing: border-box;
   width:100%;
 }
 
@@ -98,11 +100,18 @@ p.danger {
   border-radius: 0.2rem;
 }
 
+.imgBox {
+  display: flex;
+  justify-content:flex-start;
+  box-sizing: border-box;
+  width:100%;
+}
+
 .urlimage {
   font-size: 1.2rem;
   color: var(--text);
   margin-left: 1rem;
-  width: 50rem;
+  width: 90%;
   border-radius: 0.2rem;
 }
 
@@ -121,3 +130,51 @@ select {
   margin-left: 1rem;
   border-radius: 0.2rem;
 }
+
+.popup {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 5.3rem;
+  width: 100%;
+  border: 1px solid var(--border);
+  backdrop-filter: blur(5px);
+  margin-bottom: 0.5rem;
+  background-color:rgb(211, 209, 209);
+}
+
+.genres {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 70%;
+  margin-left: 1rem;
+  margin-bottom: .2rem;
+  text-align: left;
+}
+
+.platforms {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 70%;
+  margin-left: 1rem;
+  margin-bottom: .2rem;
+  text-align: left;
+}
+
+.btns2 {
+  padding: 0px 1px 0px 1px;
+  font-size: 1rem;
+  height:1.3rem;
+  color: var(--text);
+  background-color: rgba(0, 191, 255, 0.582);
+  border-radius: 0.1rem;
+  border: none;
+}
+.btns2:hover{
+  border: 1px solid var(--text);
+  cursor: pointer;
+}
+

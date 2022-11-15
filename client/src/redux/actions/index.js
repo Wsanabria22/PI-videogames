@@ -10,6 +10,8 @@ export const SORT_BY_NAME = 'SORT_BY_NAME';
 export const SORT_BY_RATING = 'SORT_BY_RATING';
 export const SEARCH_VIDEO_GAME = 'SEARCH_VIDEO_GAME';
 export const GET_PLAFORMS = 'GET_PLAFORMS';
+export const SEND_CREATESTATUS = 'SEND_CREATESTATUS';
+export const SET_POPUPSTATUS = 'SET_POPUPSTATUS';
 
 
 // export const getViedoGames = () => (dispatch) => {
@@ -55,20 +57,20 @@ export const getPlatforms = () => (dispatch) => {
 //   .catch( error => console.log(error))
 // };
 
-export const createVideoGame = (dataVideoGame)=> () => {
-  console.log('dataVideoGame',dataVideoGame)
-  console.log(JSON.stringify(dataVideoGame))
-  fetch('http://localhost:3001/videogames',
+export const createVideoGame = (dataVideoGame)=> (dispatch) => {
+  return fetch('http://localhost:3001/videogames',
   { method: 'POST', 
     headers: {'Content-Type': 'application/json'}, 
     body: JSON.stringify(dataVideoGame)})
-  .then( response => response.json() )
-  .then( json => {
-    console.log(json)
-    return json
-    // dispatch({ type: CREATE_VIDEOGAME, payload: dataVideoGame })
+  .then( response => { 
+    console.log('Status code:',response.status)
+    console.log('Status Text:',response.statusText) 
+    let result = {status: response.status, text:response.statusText}
+    dispatch({type: SEND_CREATESTATUS, payload: result})
   })
-  .catch( error => console.log(error))
+  .catch( error => { 
+    console.error(error)
+  })
 };
 
 export const filterByGenre = (genre) => {
@@ -109,5 +111,11 @@ export const getVideoGameDetail = (idVideoGame) => (dispatch) => {
     console.log('json', json)
     dispatch({ type: GET_VIDEOGAME_DETAIL, payload: json} )
   })
+  .catch( error => { 
+    console.error(error)
+  })
+}
 
+export const setPopupStatus = (status) => {
+  return { type: SET_POPUPSTATUS, payload: status }
 }
