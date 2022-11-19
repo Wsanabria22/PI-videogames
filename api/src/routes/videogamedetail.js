@@ -10,7 +10,7 @@ router.get('/videogame/:idVideogame', async (req, res)=> {
       if (gameData) res.status(200).json(gameData);
       else res.status(404).send(`No existen datos de un juego con el id ${idVideogame}`)
     } catch (error) {
-      console.log(error)
+      console.log('Error Routes: ', error)
       res.status(500).send(error.msg)
     }
   });

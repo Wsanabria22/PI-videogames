@@ -11,9 +11,8 @@ const getApiData = async ()=> {
       for (let i = 1; i <= 5 ; i++) {
         let apiData = (await axios.get(`https://api.rawg.io/api/games?key=${API_KEY}&page=${i}`)).data.results; 
         apiDataTotal = apiDataTotal.concat(apiData);
-        // console.log(apiDataTotal);
       }
-      // console.log(apiDataTotal);
+      
       const gamesData = apiDataTotal.map( game => {
         return {
           id: game.id,
@@ -28,7 +27,8 @@ const getApiData = async ()=> {
       console.log('# apiData', gamesData.length);
       return gamesData;
     } catch (error) {
-      console.log(error);
+      console.log('Error Controller (APIS):', error.response.status, error.response.statusText, 
+      error.response.data.error, error.message );
     }
   };
   
