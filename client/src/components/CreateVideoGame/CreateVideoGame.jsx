@@ -1,19 +1,27 @@
 import React from "react";
-import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from "react-redux";
+// import { useState } from 'react';
+import { ReactReduxContext, useDispatch, useSelector } from "react-redux";
+import * as ReactRedux from "react-redux";
 import { Link, useHistory } from 'react-router-dom';
-import { createVideoGame, getGenres, getPlatforms, setPopupStatus } from "../../redux/actions";
+import * as actions from "../../redux/actions";
 import validateData from './ValidateDataVideogame'
 import s from './CreateVideoGame.module.css';
 
 export function CreateVideoGame() {
+let statusCode, statusText, genres, platforms, msg1, msg2;
 
-  const dispatch = useDispatch();
+  const dispatch = ReactRedux.useDispatch();
+  React.useEffect(() => {
+    dispatch(actions.getGenres());
+    dispatch(actions.getPlatforms());
+  }, [statusCode]);
   const history = useHistory();
-  const genres = useSelector((state) => state.genres);
-  const platforms = useSelector((state) => state.platforms);
-  const statusCode = useSelector((state) => state.statusCode);
-  const statusText = useSelector((state) => state.statusText);
+  genres = useSelector((state) => state.genres);
+  platforms = useSelector((state) => state.platforms);
+  statusCode = useSelector((state) => state.statusCode);
+  statusText = useSelector((state) => state.statusText);
+  msg1 = useSelector((state) => state.message1);
+  msg2 = useSelector((state) => state.message2);
 
   const initialState = {
     name: '',
@@ -26,35 +34,35 @@ export function CreateVideoGame() {
     showPopup: false,
     message1: '',
     message2: '',
+    errors: {}
   };
 
-  let [errors, setErrors] = useState({});
-  let [data, setData] = useState(initialState);
-
-  useEffect(() => {
-    dispatch(getGenres());
-    dispatch(getPlatforms());
-    setupPopup();
-  }, [statusCode]);
-
+  const [data, setData] = React.useState(initialState);
 
   const handleDataChange = (e) => {
+    let newState = {...data, [e.target.name]: e.target.value}
+    setData(newState);
+    // setData(prevState => ({
+    //   ...prevState,
+    //   [e.target.name]: e.target.value
+    // }))
+    let dataErrors = validateData({ ...data, [e.target.name]: e.target.value })
     setData(prevState => ({
       ...prevState,
-      [e.target.name]: e.target.value
+      errors: dataErrors
     }))
-    let dataErrors = validateData({ ...data, [e.target.name]: e.target.value })
-    setErrors(dataErrors)
   };
 
   const handleDataGenre = (e) => {
     e.preventDefault()
     let genresList = data.genres.filter(genre => genre.name === e.target.value)
     if (genresList.length === 0) {
-      setData(prevState => ({
-        ...prevState,
-        genres: [...data.genres, { name: e.target.value }]
-      }))
+      let newState = {...data, genres: [...data.genres, { name: e.target.value }]}
+      setData(newState);
+      // setData(prevState => ({
+      //   ...prevState,
+      //   genres: [...data.genres, { name: e.target.value }]
+      // }))
     }
   };
 
@@ -62,26 +70,37 @@ export function CreateVideoGame() {
     e.preventDefault()
     let platformList = data.platforms.filter(platform => platform.name === e.target.value)
     if (platformList.length === 0) {
-      setData(prevState => ({
-        ...prevState,
-        platforms: [...data.platforms, { name: e.target.value }]
-      }))
+      let newState = {...data, platforms: [...data.platforms, { name: e.target.value }]}
+      setData(newState);
+      // setData(prevState => ({
+      //   ...prevState,
+      //   platforms: [...data.platforms, { name: e.target.value }]
+      // }))
     }
     let dataErrors = validateData({ ...data, platforms: [...data.platforms, { name: e.target.value }] })
-    setErrors(dataErrors)
+    setData(prevState => ({
+      ...prevState,
+      errors: dataErrors
+    }))
   };
 
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    console.log('dataSubmited',data)
     let dataErrors = validateData(data)
-    setErrors(validateData(data))
+    console.log('dataErrors', dataErrors)
+    setData(prevState => ({
+      ...prevState,
+      errors: dataErrors
+    }))
+    console.log('datavalidada',data)
     if (Object.keys(dataErrors).length === 0) {
-      dispatch(createVideoGame(data))
+      console.log('entre al dispatch')
+      dispatch(actions.createVideoGame(data))
       if ( statusCode < 300 ) {
         setData(initialState)
       }
-      setupPopup();
       // history.push('/Home')
     }
   };
@@ -103,39 +122,38 @@ export function CreateVideoGame() {
     }))
   };
 
-  const setupPopup = () => {
-    console.log(statusCode);
-    let showMsg, msg1, msg2;
-    switch (statusCode) {
-      case 200:
-        showMsg = true;
-        msg1 = 'Video Juego Creado Satisfactoriamente';
-        msg2 = 'Status Code: ' + statusCode + ': ' + statusText
-        break;
-      case 500:
-        showMsg = true;
-        msg1 = 'Video Juego No Creado';
-        msg2 = 'Status Code: ' + statusCode + ': ' + statusText
-        break;
-      default:
-        showMsg = false;
-        msg1 = '';
-        msg2 = '';
-        break;
-    }
-    setData(prevState => ({
-      ...prevState,
-      showPopup: showMsg, 
-      message1: msg1, 
-      message2: msg2
-    }))
-    console.log(data.showPopup, data.message1, data.message2)
-  }
+  // const setupPopup = () => {
+  //   console.log(statusCode);
+  //   let showMsg;
+  //   switch (statusCode) {
+  //     case 200:
+  //       showMsg = true;
+  //       msg1 = 'Video Juego Creado Satisfactoriamente';
+  //       msg2 = 'Status Code: ' + statusCode + ': ' + statusText
+  //       break;
+  //     case 500:
+  //       showMsg = true;
+  //       msg1 = 'Video Juego No Creado';
+  //       msg2 = 'Status Code: ' + statusCode + ': ' + statusText
+  //       break;
+  //     default:
+  //       showMsg = false;
+  //       msg1 = '';
+  //       msg2 = '';
+  //       break;
+  //   }
+  //   setData(prevState => ({
+  //     ...prevState,
+  //     showPopup: showMsg, 
+  //     message1: msg1, 
+  //     message2: msg2
+  //   }))
+  //   console.log(data.showPopup, data.message1, data.message2)
+  // }
 
   const closePopup = (e) => {
     e.preventDefault();
-    dispatch(setPopupStatus({status: 0, statusText:''}));
-    setupPopup();
+    dispatch(actions.setPopupStatus({status: 0, statusText:'', message1:'', message2:''}));
   }
 
   return (
@@ -143,8 +161,8 @@ export function CreateVideoGame() {
       {
         (statusCode > 0) && (
           <div className={s.popup}>
-            <h2>{data.message1}</h2>
-            <h3>{data.message2}</h3>
+            <h2>{msg1}</h2>
+            <h3>{msg2}</h3>
             <button className={s.btns1} onClick={e=> closePopup(e)}>Aceptar</button>
           </div>
         )
@@ -155,7 +173,7 @@ export function CreateVideoGame() {
           <label htmlFor="name">Nombre:</label>
           <input className={s.names} type="text" value={data.name} name='name' onChange={e => handleDataChange(e)} />
         </div>
-        {errors.name && (<p className={s.danger}>{errors.name}</p>)}
+        {data.errors.name && (<p className={s.danger}>{data.errors.name}</p>)}
         <div>
           <label htmlFor="released">Fecha de lanzamiento:</label>
           <input className={s.released} type="date" value={data.released} name='released' onChange={e => handleDataChange(e)} />
@@ -164,21 +182,22 @@ export function CreateVideoGame() {
           <label className={s.descLabel} htmlFor="description">Descripcion:</label>
           <textarea className={s.description} type="text" rows="10" cols="40" value={data.description} name='description' onChange={e => handleDataChange(e)}></textarea>
         </div>
-        {errors.description && (<p className={s.danger}>{errors.description}</p>)}
+        {data.errors.description && (<p className={s.danger}>{data.errors.description}</p>)}
         <div>
           <label htmlFor="rating">Rating:</label>
           <input className={s.num} type="number" value={data.rating} name='rating' onChange={e => handleDataChange(e)} />
         </div>
-        {errors.rating && (<p className={s.danger}>{errors.rating}</p>)}
+        {data.errors.rating && (<p className={s.danger}>{data.errors.rating}</p>)}
         <div className={s.imgBox}>
           <label htmlFor="background_image">Imagen Principal:</label>
           <input className={s.urlimage} type="text" value={data.background_image} name='background_image' onChange={e => handleDataChange(e)} />
         </div>
+
         <div className={s.tabla}>
           <div className={s.tabla}>
             <div>
               <label htmlFor="">Generos:</label>
-              <select onChange={e => handleDataGenre(e)}>
+              <select name="genres" onChange={e => handleDataGenre(e)}>
                 {genres?.map((genre, index) => <option key={index}>{genre}</option>)}
               </select>
             </div>
@@ -215,12 +234,15 @@ export function CreateVideoGame() {
                 }
               </ul>
             </div>
-          </div>
-          {errors.platforms && (<p className={s.danger}>{errors.platforms}</p>)}
+            {data.errors.platforms && (<p className={s.danger}>{data.errors.platforms}</p>)}
+          </div>    
         </div>
+        
         <button className={s.btns1} type="submit"
-          disabled={errors.name || errors.description || errors.rating || errors.platforms ? true
-            : false} >Crear Video Juego</button>
+          disabled={data.errors.name || data.errors.description || 
+            data.errors.rating || data.errors.platforms ? true
+            : false} >Crear Video Juego
+        </button>
       </form>
       <div >
         <Link to='/Home'><button className={s.btns1}>Ir Atras</button></Link>

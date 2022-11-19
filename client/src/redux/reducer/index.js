@@ -14,6 +14,8 @@ const initialState = {
     sortByRating: 'none',
     statusCode: 0,
     statusText: '',
+    message1: '',
+    message2: '',
 };
 
 const rootReducer = (state = initialState, action ) => {
@@ -88,13 +90,20 @@ const rootReducer = (state = initialState, action ) => {
       return {
         ...state,
         statusCode: action.payload.status,
-        statusText: action.payload.text
+        statusText: action.payload.text,
+        message1: 
+          action.payload.status === 200 ?
+          'Video Juego Creado Satisfactoriamente' :
+          'ERROR: Video Juego No Creado',
+        message2: 'Status Code: ' + action.payload.status + ': ' + action.payload.text
       }
     case SET_POPUPSTATUS:
       return {
         ...state,
         statusCode: action.payload.status,
-        statusText: action.payload.statusText
+        statusText: action.payload.statusText,
+        message1: action.payload.message1,
+        message2: action.payload.message2
       }
     default:
       return state;
