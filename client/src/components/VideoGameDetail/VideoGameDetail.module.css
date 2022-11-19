@@ -6,6 +6,8 @@
   border: 1px solid var(--border);
   border-radius: 0.2rem;
   margin-left: 1%;
+  background: linear-gradient(white, lightskyblue);
+  /* color:lightgray, lightskyblue, lightblue */
 }
 
 .section1 {

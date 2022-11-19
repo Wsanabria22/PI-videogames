@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Play&display=swap');
 
+.container {
+  background: linear-gradient(white, deepskyblue);
+}
+
 .gameCards {
     display: flex;
     flex-wrap: wrap;

@@ -1,6 +1,7 @@
 p.danger {
     color: red;
     font-size: 1rem;
+    font-weight: bold;
   }
 
 .container {
@@ -10,11 +11,12 @@ p.danger {
   align-items: center;
   height: 40rem;
   padding: 0.25rem;
-  margin: 1rem;
-  width: 95%;
+  margin: 0.5rem;
+  width: 98%;
   border: 1px solid var(--border);
   color: var(--text);
   border-radius: 0.3rem;
+  background: linear-gradient(white, lightskyblue);
 }
 
 .btns1 {
@@ -36,9 +38,10 @@ p.danger {
 .title {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
+  font-size: 1.5rem;
 }
 
-.gameCard {
+.form {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -50,11 +53,13 @@ p.danger {
   margin-bottom: 0.5rem;
 }
 
-.gameCard label {
+.form label {
   font-weight: bold;
   font-size: 1rem;
   margin-left: 0.5rem;
-  width:4rem;
+  width: 6rem;
+  text-align: start;
+  overflow:hidden;
 }
 
 .released {
@@ -68,7 +73,7 @@ p.danger {
   font-size: 1.2rem;
   color: var(--text);
   margin-left: 1rem;
-  width: 35rem;
+  width: 55rem;
   border-radius: 0.2rem;
 }
 
@@ -76,20 +81,9 @@ p.danger {
   font-size: 1.1rem;
   color: var(--text);
   margin-left: 1rem;
-  width: 90%;
+  width: 65rem;
   height: 5rem;
   border-radius: 0.2rem;
-}
-
-.descLabel {
-  display: block;
-}
-
-.descText {
-  display: flex;
-  justify-content:space-between;
-  box-sizing: border-box;
-  width:100%;
 }
 
 .num {
@@ -100,19 +94,17 @@ p.danger {
   border-radius: 0.2rem;
 }
 
-.imgBox {
-  display: flex;
-  justify-content:flex-start;
-  box-sizing: border-box;
-  width:100%;
-}
-
 .urlimage {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   color: var(--text);
   margin-left: 1rem;
-  width: 90%;
+  width: 65rem;
   border-radius: 0.2rem;
+}
+
+.inputBox {
+  display: grid;
+  grid-template-columns: 7rem 30fr;
 }
 
 .tabla {
@@ -122,6 +114,8 @@ p.danger {
   color: var(--text);
   border: 1px solid inherit;
   border-radius: 0.2rem;
+  border: 1px solid var(--border);
+  width:auto;
 }
 
 select {

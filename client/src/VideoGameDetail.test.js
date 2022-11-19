@@ -116,16 +116,16 @@ describe("<CharacterDetail />", () => {
   });
 
 
-  describe('Debería recibir por props el objeto "match". Utilizar el "id" de "params" para despachar la action "getVideoGameDetail"', () => {
+  xdescribe('Debería recibir por props el objeto "match". Utilizar el "id" de "params" para despachar la action "getVideoGameDetail"', () => {
     const videoGame = data.videogames[0];
     console.log('videoGame',videoGame);
-    it("Deberia renderizar el name del video juego.", () => {
+    xit("Deberia renderizar el name del video juego.", () => {
       useSelectorFn(1);
       expect(videogameDetail(1).text().includes(videoGame.name)).toEqual(true);
       // expect(useSelectorStub).toHaveBeenCalled();
       // expect(useEffect).toHaveBeenCalled();
     });
-    xit("Deberia renderizar la descripcion del videojuego.", () => {
+    it("Deberia renderizar la descripcion del videojuego.", () => {
       let sel = useSelectorFn(1);
       console.log('sel',sel)
       expect(videogameDetail(1).text().includes(videoGame.description)).toEqual(true);

@@ -1,6 +1,6 @@
 import { GET_VIDEOGAMES, GET_GENRES, FILTER_BY_GENRE, CREATE_VIDEOGAME, GET_PLAFORMS,
         FILTER_BY_ORIGIN, SORT_BY_NAME, SORT_BY_RATING, SEARCH_VIDEO_GAME, 
-        GET_VIDEOGAME_DETAIL, SEND_CREATESTATUS, SET_POPUPSTATUS} from '../actions/index';
+        GET_VIDEOGAME_DETAIL, SEND_CREATESTATUS, SET_POPUPSTATUS, CLEAR_VIDEOGAME_DETAIL} from '../actions/index';
 
 const initialState = {
     videoGames: [],
@@ -104,6 +104,10 @@ const rootReducer = (state = initialState, action ) => {
         statusText: action.payload.statusText,
         message1: action.payload.message1,
         message2: action.payload.message2
+      }
+    case CLEAR_VIDEOGAME_DETAIL:
+      return {
+        ...state, videoGameDetail: action.payload
       }
     default:
       return state;

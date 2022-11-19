@@ -524,6 +524,5 @@ describe('CreateVideoGame/>', () => {
 
   });
 
-
 });
 

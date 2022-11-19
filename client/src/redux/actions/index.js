@@ -12,6 +12,7 @@ export const SEARCH_VIDEO_GAME = 'SEARCH_VIDEO_GAME';
 export const GET_PLAFORMS = 'GET_PLAFORMS';
 export const SEND_CREATESTATUS = 'SEND_CREATESTATUS';
 export const SET_POPUPSTATUS = 'SET_POPUPSTATUS';
+export const CLEAR_VIDEOGAME_DETAIL = 'CLEAR_VIDEOGAME_DETAIL';
 
 
 // export const getViedoGames = () => (dispatch) => {
@@ -114,8 +115,12 @@ export const getVideoGameDetail = (idVideoGame) => (dispatch) => {
   .catch( error => { 
     console.error(error)
   })
-}
+};
 
 export const setPopupStatus = (status) => {
   return { type: SET_POPUPSTATUS, payload: status }
-}
+};
+
+export const clearVideoGameDetail = () => {
+  return { type: CLEAR_VIDEOGAME_DETAIL, payload: {} }
+};

@@ -122,35 +122,6 @@ let statusCode, statusText, genres, platforms, msg1, msg2;
     }))
   };
 
-  // const setupPopup = () => {
-  //   console.log(statusCode);
-  //   let showMsg;
-  //   switch (statusCode) {
-  //     case 200:
-  //       showMsg = true;
-  //       msg1 = 'Video Juego Creado Satisfactoriamente';
-  //       msg2 = 'Status Code: ' + statusCode + ': ' + statusText
-  //       break;
-  //     case 500:
-  //       showMsg = true;
-  //       msg1 = 'Video Juego No Creado';
-  //       msg2 = 'Status Code: ' + statusCode + ': ' + statusText
-  //       break;
-  //     default:
-  //       showMsg = false;
-  //       msg1 = '';
-  //       msg2 = '';
-  //       break;
-  //   }
-  //   setData(prevState => ({
-  //     ...prevState,
-  //     showPopup: showMsg, 
-  //     message1: msg1, 
-  //     message2: msg2
-  //   }))
-  //   console.log(data.showPopup, data.message1, data.message2)
-  // }
-
   const closePopup = (e) => {
     e.preventDefault();
     dispatch(actions.setPopupStatus({status: 0, statusText:'', message1:'', message2:''}));
@@ -167,37 +138,48 @@ let statusCode, statusText, genres, platforms, msg1, msg2;
           </div>
         )
       }
-      <h1 className={s.title}>Creacion del Video Juego</h1>
-      <form className={s.gameCard} onSubmit={e => handleSubmit(e)}>
-        <div className={s.imgBox}>
-          <label htmlFor="name">Nombre:</label>
-          <input className={s.names} type="text" value={data.name} name='name' onChange={e => handleDataChange(e)} />
+      <h1 className={s.title}>Informacion del Video Juego</h1>
+      <form className={s.form} onSubmit={e => handleSubmit(e)}>
+        <div className={s.inputBox}>
+          <div><label htmlFor="name">Nombre:</label></div>
+          <div>
+            <input className={s.names} type="text" value={data.name} name='name' onChange={e => handleDataChange(e)} />
+          </div>
         </div>
         {data.errors.name && (<p className={s.danger}>{data.errors.name}</p>)}
-        <div>
-          <label htmlFor="released">Fecha de lanzamiento:</label>
-          <input className={s.released} type="date" value={data.released} name='released' onChange={e => handleDataChange(e)} />
+        <div className={s.inputBox}>
+          <div><label htmlFor="released">Fecha de lanzamiento:</label></div>
+          <div>
+            <input className={s.released} type="date" value={data.released} name='released' onChange={e => handleDataChange(e)} />
+          </div>
         </div>
-        <div className={s.descText}>
-          <label className={s.descLabel} htmlFor="description">Descripcion:</label>
-          <textarea className={s.description} type="text" rows="10" cols="40" value={data.description} name='description' onChange={e => handleDataChange(e)}></textarea>
+        <div className={s.inputBox}>
+          <div><label htmlFor="description">Descripcion:</label></div>
+          <div>
+            <textarea className={s.description} type="text" rows="10" cols="40" value={data.description} name='description' onChange={e => handleDataChange(e)}></textarea>
+          </div>
         </div>
         {data.errors.description && (<p className={s.danger}>{data.errors.description}</p>)}
-        <div>
-          <label htmlFor="rating">Rating:</label>
-          <input className={s.num} type="number" value={data.rating} name='rating' onChange={e => handleDataChange(e)} />
+        <div className={s.inputBox}>
+          <div><label htmlFor="rating">Rating:</label></div>
+          <div>
+            <input className={s.num} type="number" value={data.rating} name='rating' onChange={e => handleDataChange(e)} />
+          </div>  
         </div>
         {data.errors.rating && (<p className={s.danger}>{data.errors.rating}</p>)}
-        <div className={s.imgBox}>
-          <label htmlFor="background_image">Imagen Principal:</label>
-          <input className={s.urlimage} type="text" value={data.background_image} name='background_image' onChange={e => handleDataChange(e)} />
+        <div className={s.inputBox}>
+          <div><label htmlFor="background_image">Imagen Principal:</label></div>
+          <div>
+            <input className={s.urlimage} type="text" value={data.background_image} name='background_image' onChange={e => handleDataChange(e)} />
+          </div>
         </div>
 
         <div className={s.tabla}>
           <div className={s.tabla}>
             <div>
-              <label htmlFor="">Generos:</label>
-              <select name="genres" onChange={e => handleDataGenre(e)}>
+              <label htmlFor="">Generos: </label>
+              <select name="genres" onChange={e => handleDataGenre(e)} placeholder="Seleccionar...">
+                <option value="" disabled selected>Seleccionar...</option>
                 {genres?.map((genre, index) => <option key={index}>{genre}</option>)}
               </select>
             </div>
@@ -219,6 +201,7 @@ let statusCode, statusText, genres, platforms, msg1, msg2;
             <div>
               <label htmlFor="">Plataformas:</label>
               <select name="platforms" onChange={e => handleDataPlatform(e)}>
+                <option value="" disabled selected>Seleccionar...</option>
                 {platforms?.map((platform, index) => <option key={index}>{platform}</option>)}
               </select>
             </div>

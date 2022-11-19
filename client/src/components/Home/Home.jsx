@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { getViedoGames, getGenres, filterByGenre, filterByOrigin, 
-  sortByName, sortByRating } from "../../redux/actions";
+  sortByName, sortByRating, clearVideoGameDetail } from "../../redux/actions";
 import VideoGame  from '../VideoGames/VideoGames';
 import Pagination from "../Pagination/Pagination";
 import SearchBar from "../Search/Search";
@@ -17,16 +17,13 @@ export default function Home() {
   const dispatch = useDispatch();
   let videoGames = useSelector((state) => state.videoGames);
   let genres = useSelector((state) => state.genres);
-  // let allvideoGames = useSelector((state) => state.AllVideoGames); 
 
   let originFilter = useSelector((state) => state.originFilter);
   let genreFilter = useSelector((state) => state.genreFilter);
   let sortName = useSelector((state) => state.sortByName);
   let sortRating = useSelector((state) => state.sortByRating);
 
-  // console.log('videogames', videoGames)
   let gamesOrdered = orderVideoGames(originFilter, genreFilter, sortName, sortRating, videoGames);
-  // console.log('gamesOrdered', gamesOrdered)
 
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(15);
@@ -41,6 +38,7 @@ export default function Home() {
     ()=> { 
       dispatch(getViedoGames());
       dispatch(getGenres());
+      dispatch(clearVideoGameDetail());
     }
     ,[dispatch]
   );
@@ -78,7 +76,7 @@ export default function Home() {
 
 
   return (
-    <div>
+    <div className={s.container}>
       <div className={s.header}>
         <Link to={'/createvideogame'}> 
           <button className={s.btns}>Crear Video Juego</button> 
