@@ -4,6 +4,7 @@ import LandingPage from './components/LandingPage/LandingPage';
 import Home from './components/Home/Home';
 import { CreateVideoGame } from './components/CreateVideoGame/CreateVideoGame';
 import GameDetail from './components/VideoGameDetail/VideoGameDetail';
+import UpdateVideoGame from './components/UpdateVideoGame/UpdateVideoGame';
 
 
 function App() {
@@ -16,7 +17,7 @@ function App() {
         render={({match}) => <GameDetail idVideoGame={match.params.idVideoGame} />
       }/> */}
       <Route path={'/videogamedetail/:idVideoGame'} component={GameDetail} />
-
+      <Route path={'/updatevideogame/:idVideoGame'} component={UpdateVideoGame} />
     </div>
   );
 }

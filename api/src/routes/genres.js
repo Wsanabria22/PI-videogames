@@ -11,7 +11,7 @@ router.get('/genres', async (req, res) => {
       const genres = await Genre.findAll();
       res.status(200).json(genres);
     } catch (error) {
-      console.log(error);
+      console.log('Error en route:',error);
       res.status(500).send(error.msg)
     }
   }); 

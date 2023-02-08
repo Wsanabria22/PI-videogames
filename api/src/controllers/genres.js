@@ -13,7 +13,7 @@ const getGenres = async () => {
       const genresData = apiDataTotal.map( game => game.genres )
       return(genresData.flat())
     } catch (error) {
-      console.log(error)
+      console.log('Controller error:',error)
     }
   };
 

@@ -42,7 +42,7 @@ const getDbData = async () => {
         console.log('dbData', gamesData);
         return gamesData;
     } catch (error) {
-      console.log(error); 
+      console.log('Error Controller (DB):', error); 
     } 
   };
 

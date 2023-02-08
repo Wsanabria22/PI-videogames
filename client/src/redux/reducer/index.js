@@ -1,6 +1,7 @@
 import { GET_VIDEOGAMES, GET_GENRES, FILTER_BY_GENRE, CREATE_VIDEOGAME, GET_PLAFORMS,
         FILTER_BY_ORIGIN, SORT_BY_NAME, SORT_BY_RATING, SEARCH_VIDEO_GAME, 
-        GET_VIDEOGAME_DETAIL, SEND_CREATESTATUS, SET_POPUPSTATUS, CLEAR_VIDEOGAME_DETAIL} from '../actions/index';
+        GET_VIDEOGAME_DETAIL, SEND_CREATESTATUS, SET_POPUPSTATUS, CLEAR_VIDEOGAME_DETAIL, 
+        UPDATE_VIDEOGAME, SEND_UPDATESTATUS } from '../actions/index';
 
 const initialState = {
     videoGames: [],
@@ -31,13 +32,13 @@ const rootReducer = (state = initialState, action ) => {
         ...state,
       }
     case GET_GENRES:
-      const genres = action.payload.map( genre => genre.name )
+      const genres = action.payload.map( genre => ({id: genre.id, name: genre.name}))
       return {
         ...state,
         genres: genres,
       }
     case GET_PLAFORMS: 
-      const platforms = action.payload.map( platform => platform.name )
+      const platforms = action.payload.map( platform => ({id: platform.id , name: platform.name}) )
       return {
         ...state,
         platforms: platforms,
@@ -60,7 +61,7 @@ const rootReducer = (state = initialState, action ) => {
       console.log('By name')
       return {
         ...state,
-        videoGames: state.allVideoGames,
+        // videoGames: state.allVideoGames,
         sortByName: action.payload,
         sortByRating: 'none',
       }
@@ -108,6 +109,21 @@ const rootReducer = (state = initialState, action ) => {
     case CLEAR_VIDEOGAME_DETAIL:
       return {
         ...state, videoGameDetail: action.payload
+      }
+    case UPDATE_VIDEOGAME:
+      return {
+        ...state,
+      }
+    case SEND_UPDATESTATUS:
+      return {
+        ...state,
+        statusCode: action.payload.status,
+        statusText: action.payload.text,
+        message1: 
+          action.payload.status === 200 ?
+          'Video Juego Actualizado Satisfactoriamente' :
+          'ERROR: Video Juego No Actualizado',
+        message2: 'Status Code: ' + action.payload.status + ': ' + action.payload.text
       }
     default:
       return state;

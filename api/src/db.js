@@ -5,7 +5,7 @@ const path = require('path');
 const { DB_USER, DB_PASSWORD, DB_HOST, } = process.env;
 
 const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/videogames`, {
-  logging: false, // set to console.log to see the raw SQL queries
+  logging: true, // set to console.log to see the raw SQL queries
   native: false, // lets Sequelize know we can use pg-native for ~30% more speed
 });
 const basename = path.basename(__filename);
@@ -37,7 +37,14 @@ Genre.belongsToMany(Videogame, { through: 'Videogame_Genre' });
 Videogame.belongsToMany(Platform, { as: 'platforms', through: 'Videogame_Platform'});
 Platform.belongsToMany(Videogame, { through: 'Videogame_Platform'});
 
+console.log(Videogame.associations)
 
+const model = Videogame
+for (let assoc of Object.keys(model.associations)) {
+  for (let accessor of Object.keys(model.associations[assoc].accessors)) {
+    console.log(model.name + '.' + model.associations[assoc].accessors[accessor]+'()');
+  }
+}
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');

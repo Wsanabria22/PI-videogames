@@ -10,7 +10,7 @@ router.get('/platforms', async (req, res) => {
       const platforms = await Platform.findAll();
       res.status(200).json(platforms)
     } catch (error) {
-      console.log(error)
+      console.log('Error en route:',error);
       res.status(500).send(error.msg)
     }
   

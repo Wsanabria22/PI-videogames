@@ -43,13 +43,11 @@ let statusCode, statusText, genres, platforms, msg1, msg2;
     let newState = {...data, [e.target.name]: e.target.value}
     setData(newState);
     // setData(prevState => ({
-    //   ...prevState,
-    //   [e.target.name]: e.target.value
+    //   ...prevState, [e.target.name]: e.target.value
     // }))
     let dataErrors = validateData({ ...data, [e.target.name]: e.target.value })
     setData(prevState => ({
-      ...prevState,
-      errors: dataErrors
+      ...prevState, errors: dataErrors
     }))
   };
 
@@ -60,8 +58,7 @@ let statusCode, statusText, genres, platforms, msg1, msg2;
       let newState = {...data, genres: [...data.genres, { name: e.target.value }]}
       setData(newState);
       // setData(prevState => ({
-      //   ...prevState,
-      //   genres: [...data.genres, { name: e.target.value }]
+      //   ...prevState, genres: [...data.genres, { name: e.target.value }]
       // }))
     }
   };
@@ -73,30 +70,23 @@ let statusCode, statusText, genres, platforms, msg1, msg2;
       let newState = {...data, platforms: [...data.platforms, { name: e.target.value }]}
       setData(newState);
       // setData(prevState => ({
-      //   ...prevState,
-      //   platforms: [...data.platforms, { name: e.target.value }]
+      //   ...prevState, platforms: [...data.platforms, { name: e.target.value }]
       // }))
     }
     let dataErrors = validateData({ ...data, platforms: [...data.platforms, { name: e.target.value }] })
     setData(prevState => ({
-      ...prevState,
-      errors: dataErrors
+      ...prevState, errors: dataErrors
     }))
   };
 
-
   const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log('dataSubmited',data)
     let dataErrors = validateData(data)
-    console.log('dataErrors', dataErrors)
     setData(prevState => ({
-      ...prevState,
-      errors: dataErrors
+      ...prevState, errors: dataErrors
     }))
-    console.log('datavalidada',data)
+
     if (Object.keys(dataErrors).length === 0) {
-      console.log('entre al dispatch')
       dispatch(actions.createVideoGame(data))
       if ( statusCode < 300 ) {
         setData(initialState)
@@ -105,20 +95,17 @@ let statusCode, statusText, genres, platforms, msg1, msg2;
     }
   };
 
-
   const removeGenre = (name, e) => {
     e.preventDefault()
     setData(prevState => ({
-      ...prevState,
-      genres: data.genres.filter(genre => genre.name !== name)
+      ...prevState, genres: data.genres.filter(genre => genre.name !== name)
     }))
   };
 
   const removePlatform = (name, e) => {
     e.preventDefault()
     setData(prevState => ({
-      ...prevState,
-      platforms: data.platforms.filter(platform => platform.name !== name)
+      ...prevState, platforms: data.platforms.filter(platform => platform.name !== name)
     }))
   };
 
@@ -178,9 +165,9 @@ let statusCode, statusText, genres, platforms, msg1, msg2;
           <div className={s.tabla}>
             <div>
               <label htmlFor="">Generos: </label>
-              <select name="genres" onChange={e => handleDataGenre(e)} placeholder="Seleccionar...">
+              <select name="genres" onChange={e => handleDataGenre(e)}>
                 <option value="" disabled selected>Seleccionar...</option>
-                {genres?.map((genre, index) => <option key={index}>{genre}</option>)}
+                {genres?.map((genre, index) => <option key={index}>{genre.name}</option>)}
               </select>
             </div>
             <div>
@@ -202,7 +189,7 @@ let statusCode, statusText, genres, platforms, msg1, msg2;
               <label htmlFor="">Plataformas:</label>
               <select name="platforms" onChange={e => handleDataPlatform(e)}>
                 <option value="" disabled selected>Seleccionar...</option>
-                {platforms?.map((platform, index) => <option key={index}>{platform}</option>)}
+                {platforms?.map((platform, index) => <option key={index}>{platform.name}</option>)}
               </select>
             </div>
             <div>
@@ -223,8 +210,7 @@ let statusCode, statusText, genres, platforms, msg1, msg2;
         
         <button className={s.btns1} type="submit"
           disabled={data.errors.name || data.errors.description || 
-            data.errors.rating || data.errors.platforms ? true
-            : false} >Crear Video Juego
+            data.errors.rating || data.errors.platforms ? true : false} >Crear Video Juego
         </button>
       </form>
       <div >

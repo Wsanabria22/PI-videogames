@@ -17,7 +17,6 @@ export default function Home() {
   const dispatch = useDispatch();
   let videoGames = useSelector((state) => state.videoGames);
   let genres = useSelector((state) => state.genres);
-
   let originFilter = useSelector((state) => state.originFilter);
   let genreFilter = useSelector((state) => state.genreFilter);
   let sortName = useSelector((state) => state.sortByName);
@@ -32,7 +31,7 @@ export default function Home() {
   let currentGames = gamesOrdered.slice(indexFirstGame, indexlastGame);
 
  
-  let allGenres = genres ? ['Todos'].concat(genres) : null;
+  // let allGenres = genres ? ['Todos'].concat(genres) : null;
 
   useEffect(
     ()=> { 
@@ -106,9 +105,10 @@ export default function Home() {
         </select>
         <label htmlFor="">Genero: </label>
         <select value={genreFilter} onChange={e => handleFilterGenre(e)}>
-          { allGenres?.map( (genre, index) => <option 
+          <option value="Todos" selected>Todos</option>
+          { genres?.map( (genre, index) => <option 
             key={index}
-            value={genre}>{genre}</option> ) }
+            value={genre.name}>{genre.name}</option> ) }
         </select>
       </div>
       
@@ -119,7 +119,7 @@ export default function Home() {
         { 
           currentGames?.map( (game, index) => 
               <Link to={'/videogamedetail/'+game.id}>
-                <VideoGame key={index} image={game.background_image} name={game.name} rating={game.rating} genres={game.genres}/> 
+                <VideoGame key={index} image={game.background_image} name={game.name} rating={game.rating} genres={game.genres} id={game.id} /> 
               </Link>
           )
         }

@@ -20,7 +20,7 @@
 }
 
 .image {
-  width: 15rem;
+  width: 25rem;
   height: 15rem;
   border: 1px solid var(--border);
   border-radius: 0.2rem;

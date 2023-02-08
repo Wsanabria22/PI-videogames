@@ -22,7 +22,7 @@ router.get('/videogames', async (req, res)=> {
         res.status(200).json(gamesData);
       }
     } catch (error) {
-      console.log(error);
+      console.log('Error Routes: ',error);
       res.status(500).send(error.msg);
     }  
   });

@@ -15,7 +15,7 @@ router.post('/videogames', async (req, res) => {
       await Promise.all(addPlatform);
       res.status(200).send(`Videogame ${videogame.name} creado satisfactoriamente`)
     } catch (error) {
-      console.log(error);
+      console.log('Error en route:',error);
       res.status(500).send(error.msg)
     }
   });

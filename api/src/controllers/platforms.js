@@ -15,7 +15,7 @@ const getPlatforms = async () => {
       })
       return(platformsData.flat())
     } catch (error) {
-      console.log(error)
+      console.log('Controller error:',error)
     }
   };
 

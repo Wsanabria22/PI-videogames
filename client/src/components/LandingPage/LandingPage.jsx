@@ -7,7 +7,7 @@ import s from "./LandingPage.module.css";
 export default function LandingPage() {
   return (
     <div className={s.container}>
-      <h1>Information de Video Juegos</h1>
+      <h1>Informacion de Video Juegos</h1>
       <Link to={'/home'}>
         <button className={s.btns3}>INGRESAR</button>
       </Link>

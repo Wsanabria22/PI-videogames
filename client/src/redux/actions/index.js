@@ -13,6 +13,8 @@ export const GET_PLAFORMS = 'GET_PLAFORMS';
 export const SEND_CREATESTATUS = 'SEND_CREATESTATUS';
 export const SET_POPUPSTATUS = 'SET_POPUPSTATUS';
 export const CLEAR_VIDEOGAME_DETAIL = 'CLEAR_VIDEOGAME_DETAIL';
+export const UPDATE_VIDEOGAME = 'UPDATE_VIDEOGAME';
+export const SEND_UPDATESTATUS = 'SEND_UPDATESTATUS';
 
 
 // export const getViedoGames = () => (dispatch) => {
@@ -123,4 +125,20 @@ export const setPopupStatus = (status) => {
 
 export const clearVideoGameDetail = () => {
   return { type: CLEAR_VIDEOGAME_DETAIL, payload: {} }
+};
+
+export const updateVideoGame = (dataVideoGame)=> (dispatch) => {
+  return fetch('http://localhost:3001/updatevideogame',
+  { method: 'PUT', 
+    headers: {'Content-Type': 'application/json'}, 
+    body: JSON.stringify(dataVideoGame)})
+  .then( response => { 
+    console.log('Status code:',response.status)
+    console.log('Status Text:',response.statusText) 
+    let result = {status: response.status, text:response.statusText}
+    dispatch({type: SEND_UPDATESTATUS, payload: result})
+  })
+  .catch( error => { 
+    console.error(error)
+  })
 };

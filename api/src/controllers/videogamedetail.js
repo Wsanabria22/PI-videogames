@@ -30,7 +30,7 @@ const getDataGame = async (id) => {
       } 
     } catch (error) {
       console.log('Error Controller (APIS):', error.response.status, error.response.statusText, 
-      error.response.data.error );
+      error.response.data.error, error.message );
     }
   };
 
