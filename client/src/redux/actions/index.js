@@ -16,7 +16,8 @@ export const CLEAR_VIDEOGAME_DETAIL = 'CLEAR_VIDEOGAME_DETAIL';
 export const UPDATE_VIDEOGAME = 'UPDATE_VIDEOGAME';
 export const SEND_UPDATESTATUS = 'SEND_UPDATESTATUS';
 
-const defaultBaseUrl = 'http://localhost:3001';
+// const defaultBaseUrl = 'http://localhost:3001';
+const defaultBaseUrl = 'https://pi-videogames-production-a7d4.up.railway.app/';
 
 // export const getViedoGames = () => (dispatch) => {
 //   return axios.get('http://localhost:3001/videogames')
