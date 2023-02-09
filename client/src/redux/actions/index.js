@@ -16,6 +16,7 @@ export const CLEAR_VIDEOGAME_DETAIL = 'CLEAR_VIDEOGAME_DETAIL';
 export const UPDATE_VIDEOGAME = 'UPDATE_VIDEOGAME';
 export const SEND_UPDATESTATUS = 'SEND_UPDATESTATUS';
 
+const defaultBaseUrl = 'http://localhost:3001';
 
 // export const getViedoGames = () => (dispatch) => {
 //   return axios.get('http://localhost:3001/videogames')
@@ -27,7 +28,7 @@ export const SEND_UPDATESTATUS = 'SEND_UPDATESTATUS';
 // };
 
 export const getViedoGames = () => (dispatch) => {
-  return fetch('http://localhost:3001/videogames')
+  return fetch(defaultBaseUrl+'/videogames')
   .then( response => response.json() )
   .then( json => {
     // console.log(json)
@@ -37,14 +38,14 @@ export const getViedoGames = () => (dispatch) => {
 };
 
 export const getGenres = () => (dispatch) => {
-  return fetch('http://localhost:3001/genres')
+  return fetch(defaultBaseUrl+'/genres')
   .then( response => response.json() )
   .then( json => dispatch({type: GET_GENRES, payload: json }) )
   .catch( error => console.log(error) )
 };
 
 export const getPlatforms = () => (dispatch) => {
-  return fetch('http://localhost:3001/platforms')
+  return fetch(defaultBaseUrl+'/platforms')
   .then( response => response.json() )
   .then( json => dispatch({ type: GET_PLAFORMS, payload: json}))
   .catch( error => console.log(error))
@@ -61,7 +62,7 @@ export const getPlatforms = () => (dispatch) => {
 // };
 
 export const createVideoGame = (dataVideoGame)=> (dispatch) => {
-  return fetch('http://localhost:3001/videogames',
+  return fetch(defaultBaseUrl+'/videogames',
   { method: 'POST', 
     headers: {'Content-Type': 'application/json'}, 
     body: JSON.stringify(dataVideoGame)})
@@ -108,7 +109,7 @@ export const searchVideoGame = (nameGame) => {
 
 export const getVideoGameDetail = (idVideoGame) => (dispatch) => {
   console.log('id',idVideoGame,'http://localhost:3001/videogame/' + idVideoGame)
-  fetch('http://localhost:3001/videogame/' + idVideoGame)
+  fetch(defaultBaseUrl+'/videogame/' + idVideoGame)
   .then( response => response.json() )
   .then( json =>{
     console.log('json', json)
@@ -128,7 +129,7 @@ export const clearVideoGameDetail = () => {
 };
 
 export const updateVideoGame = (dataVideoGame)=> (dispatch) => {
-  return fetch('http://localhost:3001/updatevideogame',
+  return fetch(defaultBaseUrl+'/updatevideogame',
   { method: 'PUT', 
     headers: {'Content-Type': 'application/json'}, 
     body: JSON.stringify(dataVideoGame)})
