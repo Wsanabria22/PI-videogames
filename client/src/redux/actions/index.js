@@ -17,7 +17,7 @@ export const UPDATE_VIDEOGAME = 'UPDATE_VIDEOGAME';
 export const SEND_UPDATESTATUS = 'SEND_UPDATESTATUS';
 
 // const defaultBaseUrl = 'http://localhost:3001';
-const defaultBaseUrl = process.env.BASE_URL_API || 'http://localhost:3001';
+const defaultBaseUrl = process.env.BASE_URL_API || 'https://pi-videogames-6x89.onrender.com';
 
 // export const getViedoGames = () => (dispatch) => {
 //   return axios.get('http://localhost:3001/videogames')
